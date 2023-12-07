@@ -1,12 +1,10 @@
 # coding:utf-8
 import sys
 
-from PyQt6.QtCore import Qt, QUrl
-from PyQt6.QtGui import QIcon, QDesktopServices
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout
-from qfluentwidgets import (NavigationItemPosition, MessageBox, setTheme, Theme, FluentWindow,
-                            NavigationAvatarWidget, qrouter, SubtitleLabel, setFont, InfoBadge,
-                            InfoBadgePosition)
+from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont)
 from qfluentwidgets import FluentIcon as FIF
 
 
@@ -39,11 +37,9 @@ class Window(FluentWindow):
         self.addSubInterface(self.homeInterface, FIF.HOME, '主页')
         self.addSubInterface(self.infoInterface, FIF.INFO, '关于')
 
-        # NOTE: enable acrylic effect
-        # self.navigationInterface.setAcrylicEnabled(True)
-
     def initWindow(self):
         self.resize(900, 700)
+        # NOTE 添加图标
         self.setWindowIcon(QIcon(':/qfluentwidgets/images/logo.png'))
         self.setWindowTitle('PyQt-Fluent-Widgets')
 
@@ -53,8 +49,6 @@ class Window(FluentWindow):
 
 
 if __name__ == '__main__':
-    # setTheme(Theme.DARK)
-
     app = QApplication(sys.argv)
     w = Window()
     w.show()
