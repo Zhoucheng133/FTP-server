@@ -8,7 +8,7 @@ config_logging(level=logging.ERROR)
 
 def runServer():
     author = DummyAuthorizer()
-    author.add_anonymous("/Volumes/T7_Shield/观看用的视频", perm="elradfmw")
+    author.add_anonymous("/Volumes/T7_Shield", perm="elradfmw")
 
     handler = FTPHandler
     handler.log_level = None
