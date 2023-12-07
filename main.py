@@ -1,6 +1,6 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel, QWidget, QHBoxLayout
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel, QWidget, QHBoxLayout, QSizePolicy
+from PyQt6.QtGui import QPixmap, QMouseEvent
+from PyQt6.QtCore import Qt, QPoint, QPointF
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -15,11 +15,30 @@ class MainWindow(QMainWindow):
         self.setFixedSize(400, 500)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.setStyleSheet("background-color: white;")
+    
+    def mousePressEvent(self, event: QMouseEvent):
+        self.drag_start_position = event.globalPosition()
+
+    def mouseMoveEvent(self, event: QMouseEvent):
+        delta = event.globalPosition() - self.drag_start_position
+        delta_pointf = QPointF(delta)
+        self.move(self.pos() + delta_pointf.toPoint())
+        self.drag_start_position = event.globalPosition()
 
     def titleBar(self):
         titleBarContent = QHBoxLayout()
         titleBarContent.setSpacing(0)
         titleBarContent.setAlignment(Qt.AlignmentFlag.AlignRight)
+
+        # 可拖动区域
+        dragArea=QLabel(self)
+        dragArea.setFixedSize(340,30)
+        self.drag_start_position = QPoint(0, 0)
+        # 信号连接到事件处理函数
+        dragArea.mousePressEvent = self.mousePressEvent
+        dragArea.mouseMoveEvent = self.mouseMoveEvent
+        # dragArea.mouseReleaseEvent = self.mouseReleaseEvent
+
         # 最小化按钮
         minButton=QLabel(self)
         pixmap = QPixmap("assets/minus.svg")
@@ -37,6 +56,7 @@ class MainWindow(QMainWindow):
 
         closeButton.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
+        titleBarContent.addWidget(dragArea)
         titleBarContent.addWidget(minButton)
         titleBarContent.addWidget(closeButton)
         return titleBarContent
