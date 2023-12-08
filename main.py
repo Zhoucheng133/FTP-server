@@ -3,23 +3,12 @@ import sys
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout
+from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QWidget
 from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont)
 from qfluentwidgets import FluentIcon as FIF
 
-
-class Widget(QFrame):
-
-    def __init__(self, text: str, parent=None):
-        super().__init__(parent=parent)
-        self.label = SubtitleLabel(text, self)
-        self.hBoxLayout = QHBoxLayout(self)
-
-        setFont(self.label, 24)
-        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.hBoxLayout.addWidget(self.label, 1, Qt.AlignmentFlag.AlignCenter)
-        self.setObjectName(text.replace(' ', '-'))
-
+from views.home import homeInterface
+from views.info import infoInterface
 
 class Window(FluentWindow):
 
@@ -27,8 +16,8 @@ class Window(FluentWindow):
         super().__init__()
 
         # create sub interface
-        self.homeInterface = Widget('主页', self)
-        self.infoInterface = Widget('关于', self)
+        self.homeInterface = homeInterface(self)
+        self.infoInterface = infoInterface(self)
 
         self.initNavigation()
         self.initWindow()
@@ -41,7 +30,7 @@ class Window(FluentWindow):
         self.resize(900, 700)
         # NOTE 添加图标
         self.setWindowIcon(QIcon(':/qfluentwidgets/images/logo.png'))
-        self.setWindowTitle('PyQt-Fluent-Widgets')
+        self.setWindowTitle('FTP Server')
 
         desktop = QApplication.screens()[0].availableGeometry()
         w, h = desktop.width(), desktop.height()
