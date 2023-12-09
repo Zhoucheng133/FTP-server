@@ -29,7 +29,7 @@ class Window(FluentWindow):
     def initWindow(self):
         self.setFixedSize(900, 700)
         # NOTE 添加图标
-        self.setWindowIcon(QIcon(':/qfluentwidgets/images/logo.png'))
+        self.setWindowIcon(QIcon('assets/icons/tmpIcon.png'))
         self.setWindowTitle('FTP Server')
 
         desktop = QApplication.screens()[0].availableGeometry()
