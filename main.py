@@ -3,7 +3,7 @@ import sys
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QWidget
+from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QWidget, QSizePolicy
 from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont)
 from qfluentwidgets import FluentIcon as FIF
 
@@ -27,7 +27,7 @@ class Window(FluentWindow):
         self.addSubInterface(self.infoInterface, FIF.INFO, '关于')
 
     def initWindow(self):
-        self.resize(900, 700)
+        self.setFixedSize(900, 700)
         # NOTE 添加图标
         self.setWindowIcon(QIcon(':/qfluentwidgets/images/logo.png'))
         self.setWindowTitle('FTP Server')
