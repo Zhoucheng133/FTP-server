@@ -1,8 +1,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel, QFileDialog
-from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButton, LineEdit, PushButton, SpinBox, SwitchButton, PasswordLineEdit, CheckBox)
-from qfluentwidgets import FluentIcon as FIF
+from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButton, LineEdit, PushButton, SpinBox, SwitchButton, PasswordLineEdit, CheckBox, Flyout, FluentIcon, InfoBarIcon)
 
 class homeInterface(QFrame):
 
@@ -108,8 +107,25 @@ class homeInterface(QFrame):
         directory = QFileDialog.getExistingDirectory(self, "Select Directory")
         self.pathInput.setText(directory)
 
+    def errDialog(self, text):
+        widgetTarget=self.runServer
+        if text=="没有选择目录":
+            widgetTarget=self.pathInput
+        Flyout.create(
+            icon=InfoBarIcon.ERROR,
+            title='无法继续',
+            content=text,
+            target=widgetTarget,
+            parent=self,
+            isClosable=True
+        )
+
     def runServer(self):
         if(self.runButton.isChecked()):
+            if(self.pathInput.text()==""):
+                self.errDialog("没有选择目录")
+                self.runButton.setChecked(False)
+                return
             self.pathSelectButton.setEnabled(False)
             self.portInput.setEnabled(False)
             self.switch.setEnabled(False)
