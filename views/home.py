@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel
-from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButton, LineEdit, PushButton, SpinBox, SwitchButton)
+from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel, QFileDialog
+from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButton, LineEdit, PushButton, SpinBox, SwitchButton, PasswordLineEdit)
 from qfluentwidgets import FluentIcon as FIF
 
 class homeInterface(QFrame):
@@ -71,9 +71,8 @@ class homeInterface(QFrame):
         # 密码部分
         passwordLabel=QLabel("密码")
         passwordLabel.setStyleSheet("margin-top: 10px; margin-bottom: 10px")
-        self.passwordInput=LineEdit(self)
+        self.passwordInput=PasswordLineEdit(self)
         self.passwordInput.setEnabled(False)
-        self.passwordInput.setEchoMode(LineEdit.EchoMode.Password)
 
         authArea.addWidget(usernameLabel)
         authArea.addWidget(self.usernameInput)
