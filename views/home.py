@@ -19,13 +19,13 @@ class homeInterface(QFrame):
         # 路径选择
         pathSelecter=QHBoxLayout()
         # 路径输入框
-        pathInput=LineEdit()
-        pathInput.setEnabled(False)
-        pathInput.setText("hello")
+        self.pathInput=LineEdit()
+        self.pathInput.setEnabled(False)
         # 路径浏览按钮
         pathSelectButton=PushButton("浏览")
+        pathSelectButton.clicked.connect(self.selectPath)
         # 添加到路径选择
-        pathSelecter.addWidget(pathInput)
+        pathSelecter.addWidget(self.pathInput)
         pathSelecter.addWidget(pathSelectButton)
 
         # 端口选择
@@ -103,7 +103,10 @@ class homeInterface(QFrame):
     def authChanged(self):
         self.passwordInput.setEnabled(self.switch.checked)
         self.usernameInput.setEnabled(self.switch.checked)
-        
+    
+    def selectPath(self):
+        directory = QFileDialog.getExistingDirectory(self, "Select Directory")
+        self.pathInput.setText(directory)
 
-    def runServer():
+    def runServer(self):
         print("运行")
