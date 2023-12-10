@@ -3,6 +3,8 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel, QFileDialog
 from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButton, LineEdit, PushButton, SpinBox, SwitchButton, PasswordLineEdit, CheckBox, Flyout, FluentIcon, InfoBarIcon)
 
+from funcs.ftp_main import runServer, stopServer
+
 class homeInterface(QFrame):
 
     def __init__(self, title:str, parent=None):
@@ -34,7 +36,7 @@ class homeInterface(QFrame):
         # 端口选择框
         self.portInput=SpinBox()
         self.portInput.setRange(1,10000)
-        self.portInput.setValue(21)
+        self.portInput.setValue(2121)
         self.portInput.setFixedWidth(140)
         # 添加到端口选择
         portSelector.addWidget(portLabel)
@@ -90,7 +92,7 @@ class homeInterface(QFrame):
         runbuttonLayout=QHBoxLayout()
         self.runButton = TogglePushButton("启动服务")
         self.runButton.setFixedWidth(100)
-        self.runButton.clicked.connect(self.runServer)
+        self.runButton.clicked.connect(self.runServerHandler)
         runbuttonLayout.addWidget(self.runButton)
         runbuttonLayout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
 
@@ -108,13 +110,15 @@ class homeInterface(QFrame):
         self.pathInput.setText(directory)
 
     def errDialog(self, text):
-        widgetTarget=self.runServer
+        widgetTarget=self.runServerHandler
         if(text=="没有选择目录"):
             widgetTarget=self.pathInput
         elif(text=="没有输入用户名"):
             widgetTarget=self.usernameInput
         elif(text=="没有输入密码"):
             widgetTarget=self.passwordInput
+        elif(text=="没有输入端口号"):
+            widgetTarget=self.portInput
         Flyout.create(
             icon=InfoBarIcon.ERROR,
             title='无法继续',
@@ -124,7 +128,7 @@ class homeInterface(QFrame):
             isClosable=True
         )
 
-    def runServer(self):
+    def runServerHandler(self):
         if(self.runButton.isChecked()):
             if(self.pathInput.text()==""):
                 self.errDialog("没有选择目录")
@@ -147,7 +151,9 @@ class homeInterface(QFrame):
             self.switch.setEnabled(False)
             self.passwordInput.setEnabled(False)
             self.usernameInput.setEnabled(False)
+            runServer(self.pathInput.text(), self.usernameInput.text(), self.passwordInput.text())
         else:
+            stopServer()
             self.pathSelectButton.setEnabled(True)
             self.portInput.setEnabled(True)
             self.switch.setEnabled(True)
