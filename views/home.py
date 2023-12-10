@@ -35,6 +35,7 @@ class homeInterface(QFrame):
         portLabel.setStyleSheet("font-size: 15px")
         # 端口选择框
         portInput=SpinBox()
+        portInput.setRange(1,10000)
         portInput.setValue(21)
         portInput.setFixedWidth(140)
         # 添加到端口选择
