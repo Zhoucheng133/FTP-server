@@ -1,8 +1,6 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QIcon, QPixmap
-from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout, QLabel
-from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButton)
-from qfluentwidgets import FluentIcon as FIF
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtWidgets import QFrame, QVBoxLayout, QLabel
 
 class infoInterface(QFrame):
     def __init__(self, text: str, parent=None):

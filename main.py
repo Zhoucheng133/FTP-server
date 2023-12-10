@@ -1,10 +1,9 @@
 # coding:utf-8
 import sys
 
-from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QWidget, QSizePolicy
-from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont)
+from PyQt6.QtWidgets import QApplication
+from qfluentwidgets import (FluentWindow)
 from qfluentwidgets import FluentIcon as FIF
 
 from views.home import homeInterface
