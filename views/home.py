@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel, QFileDialog
-from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButton, LineEdit, PushButton, SpinBox, SwitchButton, PasswordLineEdit)
+from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButton, LineEdit, PushButton, SpinBox, SwitchButton, PasswordLineEdit, CheckBox)
 from qfluentwidgets import FluentIcon as FIF
 
 class homeInterface(QFrame):
@@ -22,32 +22,31 @@ class homeInterface(QFrame):
         self.pathInput=LineEdit()
         self.pathInput.setEnabled(False)
         # 路径浏览按钮
-        pathSelectButton=PushButton("浏览")
-        pathSelectButton.clicked.connect(self.selectPath)
+        self.pathSelectButton=PushButton("浏览")
+        self.pathSelectButton.clicked.connect(self.selectPath)
         # 添加到路径选择
         pathSelecter.addWidget(self.pathInput)
-        pathSelecter.addWidget(pathSelectButton)
+        pathSelecter.addWidget(self.pathSelectButton)
 
         # 端口选择
         portSelector=QHBoxLayout()
         # 端口选择文本
         portLabel=QLabel("FTP服务端口:")
-        portLabel.setStyleSheet("font-size: 15px")
         # 端口选择框
-        portInput=SpinBox()
-        portInput.setRange(1,10000)
-        portInput.setValue(21)
-        portInput.setFixedWidth(140)
+        self.portInput=SpinBox()
+        self.portInput.setRange(1,10000)
+        self.portInput.setValue(21)
+        self.portInput.setFixedWidth(140)
         # 添加到端口选择
         portSelector.addWidget(portLabel)
-        portSelector.addWidget(portInput)
+        portSelector.addWidget(self.portInput)
         portSelector.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         # 身份验证开关
         authSwitch=QHBoxLayout()
         # 切换开关
-        self.switch=SwitchButton(self)
-        self.switch.checkedChanged.connect(self.authChanged)
+        self.switch=CheckBox(self)
+        self.switch.stateChanged.connect(self.authChanged)
         # 提示文本
         switchLabel=QLabel("开启身份验证")
 
@@ -90,10 +89,10 @@ class homeInterface(QFrame):
 
         # 运行按钮
         runbuttonLayout=QHBoxLayout()
-        runButton = TogglePushButton("启动服务")
-        runButton.setFixedWidth(100)
-        runButton.clicked.connect(self.runServer)
-        runbuttonLayout.addWidget(runButton)
+        self.runButton = TogglePushButton("启动服务")
+        self.runButton.setFixedWidth(100)
+        self.runButton.clicked.connect(self.runServer)
+        runbuttonLayout.addWidget(self.runButton)
         runbuttonLayout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
 
         self.vBoxLayout.addLayout(horizontal_layout)
@@ -101,13 +100,24 @@ class homeInterface(QFrame):
         self.vBoxLayout.addStretch(1)
         self.setObjectName("homeView")
 
-    def authChanged(self):
-        self.passwordInput.setEnabled(self.switch.checked)
-        self.usernameInput.setEnabled(self.switch.checked)
+    def authChanged(self, state):
+        self.passwordInput.setEnabled(state==2)
+        self.usernameInput.setEnabled(state==2)
     
     def selectPath(self):
         directory = QFileDialog.getExistingDirectory(self, "Select Directory")
         self.pathInput.setText(directory)
 
     def runServer(self):
-        print("运行")
+        if(self.runButton.isChecked()):
+            self.pathSelectButton.setEnabled(False)
+            self.portInput.setEnabled(False)
+            self.switch.setEnabled(False)
+            self.passwordInput.setEnabled(False)
+            self.usernameInput.setEnabled(False)
+        else:
+            self.pathSelectButton.setEnabled(True)
+            self.portInput.setEnabled(True)
+            self.switch.setEnabled(True)
+            self.passwordInput.setEnabled(True)
+            self.usernameInput.setEnabled(True)
