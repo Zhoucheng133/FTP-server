@@ -1,13 +1,14 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel
-from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButton, LineEdit, PushButton, SpinBox)
+from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButton, LineEdit, PushButton, SpinBox, SwitchButton)
 from qfluentwidgets import FluentIcon as FIF
 
 class homeInterface(QFrame):
     def __init__(self, title:str, parent=None):
         super().__init__(parent=parent)
         self.vBoxLayout = QVBoxLayout(self)
+        self.vBoxLayout.addStretch(1)
         horizontal_layout = QHBoxLayout()
         horizontal_layout.setContentsMargins(20, 20, 20, 20)
 
@@ -40,16 +41,48 @@ class homeInterface(QFrame):
         portSelector.addWidget(portInput)
         portSelector.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
+        # 身份验证开关
+        authSwitch=QHBoxLayout()
+        # 切换开关
+        switch=SwitchButton()
+        # 提示文本
+        switchLabel=QLabel("开启身份验证")
+
+        authSwitch.addWidget(switchLabel)
+        authSwitch.addWidget(switch)
+
         leftSide.addLayout(pathSelecter)
         leftSide.addLayout(portSelector)
+        leftSide.addLayout(authSwitch)
 
+        # 右侧布局
         rightSide=QVBoxLayout()
 
-        horizontal_layout.addLayout(leftSide)
-        horizontal_layout.addLayout(rightSide)
+        # 用户名和密码
+        authArea=QVBoxLayout()
+        authArea.setSpacing(0)
+        # 用户名部分
+        usernameLabel=QLabel("用户名")
+        usernameLabel.setStyleSheet("margin-top: 10px; margin-bottom: 10px")
+        usernameInput=LineEdit()
+        # 密码部分
+        passwordLabel=QLabel("密码")
+        passwordLabel.setStyleSheet("margin-top: 10px; margin-bottom: 10px")
+        passwordInput=LineEdit()
 
-        spacer_item = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        horizontal_layout.addSpacerItem(spacer_item)
+        authArea.addWidget(usernameLabel)
+        authArea.addWidget(usernameInput)
+        authArea.addWidget(passwordLabel)
+        authArea.addWidget(passwordInput)
+
+        rightSide.addLayout(authSwitch)
+        rightSide.addLayout(authArea)
+
+        leftSide.addStretch()
+        rightSide.addStretch()
+        horizontal_layout.setSpacing(20)
+        horizontal_layout.addLayout(leftSide, 1)
+        horizontal_layout.addLayout(rightSide, 1)
 
         # 运行按钮
         runbuttonLayout=QHBoxLayout()
@@ -60,4 +93,5 @@ class homeInterface(QFrame):
 
         self.vBoxLayout.addLayout(horizontal_layout)
         self.vBoxLayout.addLayout(runbuttonLayout)
+        self.vBoxLayout.addStretch(1)
         self.setObjectName("homeView")
