@@ -109,8 +109,12 @@ class homeInterface(QFrame):
 
     def errDialog(self, text):
         widgetTarget=self.runServer
-        if text=="没有选择目录":
+        if(text=="没有选择目录"):
             widgetTarget=self.pathInput
+        elif(text=="没有输入用户名"):
+            widgetTarget=self.usernameInput
+        elif(text=="没有输入密码"):
+            widgetTarget=self.passwordInput
         Flyout.create(
             icon=InfoBarIcon.ERROR,
             title='无法继续',
@@ -126,6 +130,14 @@ class homeInterface(QFrame):
                 self.errDialog("没有选择目录")
                 self.runButton.setChecked(False)
                 return
+            elif(self.switch.isChecked()==True and self.usernameInput.text()==""):
+                self.errDialog("没有输入用户名")
+                self.runButton.setChecked(False)
+                return
+            elif(self.switch.isChecked()==True and self.passwordInput.text()==""):
+                self.errDialog("没有输入密码")
+                self.runButton.setChecked(False)
+                return
             self.pathSelectButton.setEnabled(False)
             self.portInput.setEnabled(False)
             self.switch.setEnabled(False)
@@ -135,5 +147,6 @@ class homeInterface(QFrame):
             self.pathSelectButton.setEnabled(True)
             self.portInput.setEnabled(True)
             self.switch.setEnabled(True)
-            self.passwordInput.setEnabled(True)
-            self.usernameInput.setEnabled(True)
+            if(self.switch.isChecked()):
+                self.passwordInput.setEnabled(True)
+                self.usernameInput.setEnabled(True)
