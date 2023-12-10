@@ -75,7 +75,6 @@ class homeInterface(QFrame):
         authArea.addWidget(passwordLabel)
         authArea.addWidget(passwordInput)
 
-        rightSide.addLayout(authSwitch)
         rightSide.addLayout(authArea)
 
         leftSide.addStretch()
