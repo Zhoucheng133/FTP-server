@@ -5,6 +5,7 @@ from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButt
 from qfluentwidgets import FluentIcon as FIF
 
 class homeInterface(QFrame):
+
     def __init__(self, title:str, parent=None):
         super().__init__(parent=parent)
         self.vBoxLayout = QVBoxLayout(self)
@@ -44,12 +45,13 @@ class homeInterface(QFrame):
         # 身份验证开关
         authSwitch=QHBoxLayout()
         # 切换开关
-        switch=SwitchButton()
+        self.switch=SwitchButton(self)
+        self.switch.checkedChanged.connect(self.authChanged)
         # 提示文本
         switchLabel=QLabel("开启身份验证")
 
         authSwitch.addWidget(switchLabel)
-        authSwitch.addWidget(switch)
+        authSwitch.addWidget(self.switch)
 
         leftSide.addLayout(pathSelecter)
         leftSide.addLayout(portSelector)
@@ -64,16 +66,18 @@ class homeInterface(QFrame):
         # 用户名部分
         usernameLabel=QLabel("用户名")
         usernameLabel.setStyleSheet("margin-top: 10px; margin-bottom: 10px")
-        usernameInput=LineEdit()
+        self.usernameInput=LineEdit(self)
+        self.usernameInput.setEnabled(False)
         # 密码部分
         passwordLabel=QLabel("密码")
         passwordLabel.setStyleSheet("margin-top: 10px; margin-bottom: 10px")
-        passwordInput=LineEdit()
+        self.passwordInput=LineEdit(self)
+        self.passwordInput.setEnabled(False)
 
         authArea.addWidget(usernameLabel)
-        authArea.addWidget(usernameInput)
+        authArea.addWidget(self.usernameInput)
         authArea.addWidget(passwordLabel)
-        authArea.addWidget(passwordInput)
+        authArea.addWidget(self.passwordInput)
 
         rightSide.addLayout(authArea)
 
@@ -87,6 +91,7 @@ class homeInterface(QFrame):
         runbuttonLayout=QHBoxLayout()
         runButton = TogglePushButton("启动服务")
         runButton.setFixedWidth(100)
+        runButton.clicked.connect(self.runServer)
         runbuttonLayout.addWidget(runButton)
         runbuttonLayout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
 
@@ -94,3 +99,11 @@ class homeInterface(QFrame):
         self.vBoxLayout.addLayout(runbuttonLayout)
         self.vBoxLayout.addStretch(1)
         self.setObjectName("homeView")
+
+    def authChanged(self):
+        self.passwordInput.setEnabled(self.switch.checked)
+        self.usernameInput.setEnabled(self.switch.checked)
+        
+
+    def runServer():
+        print("运行")
