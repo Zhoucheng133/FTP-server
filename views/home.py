@@ -130,6 +130,10 @@ class homeInterface(QFrame):
                 self.errDialog("没有选择目录")
                 self.runButton.setChecked(False)
                 return
+            elif(self.portInput.text()==""):
+                self.errDialog("没有输入端口号")
+                self.runButton.setChecked(False)
+                return
             elif(self.switch.isChecked()==True and self.usernameInput.text()==""):
                 self.errDialog("没有输入用户名")
                 self.runButton.setChecked(False)
