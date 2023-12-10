@@ -73,6 +73,7 @@ class homeInterface(QFrame):
         passwordLabel.setStyleSheet("margin-top: 10px; margin-bottom: 10px")
         self.passwordInput=LineEdit(self)
         self.passwordInput.setEnabled(False)
+        self.passwordInput.setEchoMode(LineEdit.EchoMode.Password)
 
         authArea.addWidget(usernameLabel)
         authArea.addWidget(self.usernameInput)
