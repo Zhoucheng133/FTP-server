@@ -1,7 +1,6 @@
 from PyQt6.QtCore import Qt, QSettings
-from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel, QFileDialog
-from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButton, LineEdit, PushButton, SpinBox, SwitchButton, PasswordLineEdit, CheckBox, Flyout, FluentIcon, InfoBarIcon)
+from PyQt6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QLabel, QFileDialog
+from qfluentwidgets import (TogglePushButton, LineEdit, PushButton, SpinBox, PasswordLineEdit, CheckBox, Flyout, InfoBarIcon)
 
 from funcs.ftp_main import runServer, stopServer
 
