@@ -1,4 +1,4 @@
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QSettings
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout, QSpacerItem, QSizePolicy, QLabel, QFileDialog
 from qfluentwidgets import (FluentWindow, SubtitleLabel, setFont, TogglePushButton, LineEdit, PushButton, SpinBox, SwitchButton, PasswordLineEdit, CheckBox, Flyout, FluentIcon, InfoBarIcon)
@@ -14,6 +14,8 @@ class homeInterface(QFrame):
         horizontal_layout = QHBoxLayout()
         horizontal_layout.setContentsMargins(20, 20, 20, 20)
 
+        settings = QSettings()
+
         # 左侧布局
         leftSide=QVBoxLayout()
 
@@ -21,6 +23,7 @@ class homeInterface(QFrame):
         pathSelecter=QHBoxLayout()
         # 路径输入框
         self.pathInput=LineEdit()
+        self.pathInput.setText(settings.value("path", "", type=str))
         self.pathInput.setEnabled(False)
         # 路径浏览按钮
         self.pathSelectButton=PushButton("浏览")
@@ -36,7 +39,7 @@ class homeInterface(QFrame):
         # 端口选择框
         self.portInput=SpinBox()
         self.portInput.setRange(1,10000)
-        self.portInput.setValue(2121)
+        self.portInput.setValue(settings.value("port", 2121, type=int))
         self.portInput.setFixedWidth(140)
         # 添加到端口选择
         portSelector.addWidget(portLabel)
@@ -127,6 +130,14 @@ class homeInterface(QFrame):
             parent=self,
             isClosable=True
         )
+    
+    def setPrefValue(self, path, port, auth, username, password):
+        settings = QSettings()
+        settings.setValue("path", path)
+        settings.setValue("port", port)
+        settings.setValue("auth", auth)
+        settings.setValue("username", username)
+        settings.setValue("password", password)
 
     def runServerHandler(self):
         if(self.runButton.isChecked()):
@@ -146,6 +157,7 @@ class homeInterface(QFrame):
                 self.errDialog("没有输入密码")
                 self.runButton.setChecked(False)
                 return
+            self.setPrefValue(self.pathInput.text(), self.portInput.text(), self.switch.isChecked(), self.usernameInput.text(), self.passwordInput.text())
             self.pathSelectButton.setEnabled(False)
             self.portInput.setEnabled(False)
             self.switch.setEnabled(False)
