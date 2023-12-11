@@ -50,6 +50,7 @@ class homeInterface(QFrame):
         authSwitch=QHBoxLayout()
         # 切换开关
         self.switch=CheckBox(self)
+        self.switch.setChecked(settings.value("auth", False, type=bool))
         self.switch.stateChanged.connect(self.authChanged)
         # 提示文本
         switchLabel=QLabel("开启身份验证")
@@ -71,12 +72,14 @@ class homeInterface(QFrame):
         usernameLabel=QLabel("用户名")
         usernameLabel.setStyleSheet("margin-top: 10px; margin-bottom: 10px")
         self.usernameInput=LineEdit(self)
-        self.usernameInput.setEnabled(False)
+        self.usernameInput.setEnabled(settings.value("auth", False, type=bool))
+        self.usernameInput.setText(settings.value("username", "", type=str))
         # 密码部分
         passwordLabel=QLabel("密码")
         passwordLabel.setStyleSheet("margin-top: 10px; margin-bottom: 10px")
         self.passwordInput=PasswordLineEdit(self)
-        self.passwordInput.setEnabled(False)
+        self.passwordInput.setEnabled(settings.value("auth", False, type=bool))
+        self.passwordInput.setText(settings.value("password", "", type=str))
 
         authArea.addWidget(usernameLabel)
         authArea.addWidget(self.usernameInput)
