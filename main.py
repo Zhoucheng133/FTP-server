@@ -27,7 +27,6 @@ class Window(FluentWindow):
 
     def initWindow(self):
         self.setFixedSize(600, 500)
-        # NOTE 添加图标
         self.setWindowIcon(QIcon('assets/icons/tmpIcon.png'))
         self.setWindowTitle('FTP Server')
 
