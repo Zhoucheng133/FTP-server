@@ -4,7 +4,7 @@ from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 import logging
 from pyftpdlib.log import config_logging
-config_logging(level=logging.ERROR)
+config_logging(level=logging.DEBUG)
 
 global_server = None
 
@@ -36,6 +36,6 @@ def stopServer():
     global global_server
     if global_server:
         # 关闭FTP服务器
-        global_server.close()
+        global_server.close_all()
     else:
         print("Server not running")
