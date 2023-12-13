@@ -4,7 +4,7 @@ from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 import logging
 from pyftpdlib.log import config_logging
-config_logging(level=logging.DEBUG)
+config_logging(level=logging.ERROR)
 
 global_server = None
 
