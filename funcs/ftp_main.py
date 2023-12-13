@@ -1,4 +1,4 @@
-import threading
+from threading import Thread
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
@@ -27,7 +27,7 @@ def runServer(path, enableAuth, username, password):
     server = FTPServer(("", 2121), handler)
 
     # 使用线程在后台运行服务器
-    server_thread = threading.Thread(target=server.serve_forever)
+    server_thread = Thread(target=server.serve_forever)
     server_thread.daemon = True
     server_thread.start()
     global_server = server
@@ -39,3 +39,29 @@ def stopServer():
         global_server.close_all()
     else:
         print("Server not running")
+
+
+class Server:
+    def __init__(self) -> None:
+        self.ftp_server=None
+    def startServer(self, path, enableAuth, username, password):
+        author = DummyAuthorizer()
+        if enableAuth:
+        # 如果提供了用户名和密码，则添加指定用户
+            author.add_user(username, password, path, perm="elradfmw")
+        else:
+            # 否则，添加匿名用户
+            author.add_anonymous(path, perm="elradfmw")
+
+        handler = FTPHandler
+        handler.log_level = None
+        handler.authorizer = author
+
+        # 创建FTP服务器并启动
+        self.ftp_server = FTPServer(("", 2121), handler)
+
+        # 使用线程在后台运行服务器
+        server_thread = Thread(target=self.ftp_server.serve_forever,daemon=True)
+        server_thread.start()
+    def stopServer(self):
+        self.ftp_server.close_all()

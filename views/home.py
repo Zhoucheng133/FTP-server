@@ -3,10 +3,13 @@ from PyQt6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QLabel, QFileDialo
 from qfluentwidgets import (TogglePushButton, LineEdit, PushButton, SpinBox, PasswordLineEdit, CheckBox, Flyout, InfoBarIcon)
 
 from funcs.ftp_main import runServer, stopServer
+from funcs.ftp_main import Server
 
 class homeInterface(QFrame):
 
     def __init__(self, title:str, parent=None):
+        self.server=Server()
+
         super().__init__(parent=parent)
         self.vBoxLayout = QVBoxLayout(self)
         self.vBoxLayout.addStretch(1)
@@ -165,9 +168,11 @@ class homeInterface(QFrame):
             self.switch.setEnabled(False)
             self.passwordInput.setEnabled(False)
             self.usernameInput.setEnabled(False)
-            runServer(self.pathInput.text(), self.switch.isChecked(), self.usernameInput.text(), self.passwordInput.text())
+            # runServer(self.pathInput.text(), self.switch.isChecked(), self.usernameInput.text(), self.passwordInput.text())
+            self.server.startServer(self.pathInput.text(), self.switch.isChecked(), self.usernameInput.text(), self.passwordInput.text())
         else:
-            stopServer()
+            # stopServer()
+            self.server.stopServer()
             self.pathSelectButton.setEnabled(True)
             self.portInput.setEnabled(True)
             self.switch.setEnabled(True)
