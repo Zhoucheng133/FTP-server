@@ -165,7 +165,7 @@ class homeInterface(QFrame):
             self.switch.setEnabled(False)
             self.passwordInput.setEnabled(False)
             self.usernameInput.setEnabled(False)
-            runServer(self.pathInput.text(), self.usernameInput.text(), self.passwordInput.text())
+            runServer(self.pathInput.text(), self.switch.isChecked(), self.usernameInput.text(), self.passwordInput.text())
         else:
             stopServer()
             self.pathSelectButton.setEnabled(True)

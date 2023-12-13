@@ -8,11 +8,11 @@ config_logging(level=logging.ERROR)
 
 global_server = None
 
-def runServer(path, username, password):
+def runServer(path, enableAuth, username, password):
     global global_server  # 使用全局变量
     author = DummyAuthorizer()
     
-    if username and password:
+    if enableAuth:
         # 如果提供了用户名和密码，则添加指定用户
         author.add_user(username, password, path, perm="elradfmw")
     else:
